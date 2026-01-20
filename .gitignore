@@ -1,0 +1,41 @@
+# --- Bitcoin & Lightning Node Data ---
+# Ignore the large blockchain data and neutrino state
+lnd_data/
+lnbits_data/
+
+# --- Other Service Data ---
+# Ignore local database and asset storage for other services
+blossom_data/
+relay_db/
+
+# --- Sensitive Information ---
+# DO NOT COMMIT SEEDS OR ENVIRONMENT SECRETS
+LND_cipher_seed.md
+.env*
+
+# --- Dependencies ---
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# --- Build Artifacts & Logs ---
+.next/
+out/
+build/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db

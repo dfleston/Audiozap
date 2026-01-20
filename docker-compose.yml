@@ -1,0 +1,82 @@
+
+services:
+  # 1. Lightning Node (Neutrino Mode)
+  lnd:
+    image: lightninglabs/lnd:v0.18.5-beta
+    container_name: lnd
+    volumes:
+      - ./lnd_data:/root/.lnd
+      - ./lnd/lnd.conf:/root/.lnd/lnd.conf
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    command:
+      - "--bitcoin.active"
+      - "--bitcoin.testnet"
+      - "--bitcoin.node=neutrino"
+      - "--neutrino.addpeer=btcd-testnet.lightning.computer"
+      - "--neutrino.addpeer=faucet.lightning.community"
+      - "--rpclisten=0.0.0.0:10009"
+      - "--restlisten=0.0.0.0:8080"
+    ports:
+      - "9735:9735"   # P2P
+      - "10009:10009" # gRPC
+      - "8080:8080"   # REST
+    restart: unless-stopped
+
+  # 2. LNBits (Wallet UI)
+  lnbits:
+    image: lnbits/lnbits:0.12.1
+    container_name: lnbits
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./lnbits_data:/app/data
+    environment:
+      - LNBITS_BACKEND_WALLET_CLASS=LndRestWallet
+      - LND_REST_ENDPOINT=https://lnd:8080
+      - LND_REST_CERT=/lnd_data/tls.cert
+      - LND_MACAROON=/lnd_data/data/chain/bitcoin/testnet/admin.macaroon
+      # for mainnet: - LND_MACAROON=/lnd_data/data/chain/bitcoin/mainnet/admin.macaroon
+      - LNBITS_ADMIN_UI=true
+      - LNBITS_EXTENSIONS_DEFAULT_INSTALL=usermanager
+    depends_on:
+      - lnd
+    restart: unless-stopped
+
+  # 3. Blossom Server (Media Storage)
+  blossom:
+    image: ghcr.io/hzrd149/blossom-server:master
+    container_name: blossom
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./blossom_data:/data
+    environment:
+      - BLOSSOM_PORT=3000
+      - BLOSSOM_DB_PATH=/data/blossom.db
+      - BLOSSOM_STORAGE_PATH=/data/files
+    restart: unless-stopped
+
+  # 5. Dev Dashboard (Next.js)
+  dashboard:
+    build: ./audiozap-next
+    container_name: dashboard
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./audiozap-next/.env.local
+    depends_on:
+      - lnbits
+      - relay
+    restart: unless-stopped
+
+  # 4. Your Custom Relay
+  relay:
+    build: ./khatru-relay
+    container_name: relay
+    ports:
+      - "3334:3334"
+    volumes:
+      - ./relay_db:/db
+    restart: unless-stopped

@@ -1,0 +1,17 @@
+[Application Options]
+alias=AudioZap-Cloud
+debuglevel=info
+# Allow LNBits and other containers to talk to LND
+tlsextraip=0.0.0.0
+rpclisten=0.0.0.0:10009
+restlisten=0.0.0.0:8080
+
+[Bitcoin]
+bitcoin.active=1
+bitcoin.mainnet=1
+bitcoin.node=neutrino
+
+[Neutrino]
+# These are reliable peers for Neutrino
+neutrino.connect=btcd-mainnet.lightning.computer
+neutrino.connect=mainnet1-btcd.zaphq.io
