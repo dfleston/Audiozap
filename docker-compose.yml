@@ -40,6 +40,7 @@ services:
       # for mainnet: - LND_MACAROON=/lnd_data/data/chain/bitcoin/mainnet/admin.macaroon
       - LNBITS_ADMIN_UI=true
       - LNBITS_EXTENSIONS_DEFAULT_INSTALL=usermanager
+      - LNBITS_SITE_URL=http://34.35.41.34:5000
     depends_on:
       - lnd
     restart: unless-stopped
