@@ -2,6 +2,29 @@
 
 AudioZap is a containerized music platform integrating Bitcoin Lightning and Nostr. It features a decentralized relay for metadata, a Blossom server for media storage, and a Next.js dashboard for management.
 
+The core problem we're solving is the friction and intermediation in music streaming. AudioZap enables:
+
+- Direct-to-Artist Payments: "Zaps" settle instantly via LND, bypassing traditional aggregators.
+
+- Protocol-Level Revenue Splits: We use a custom Khatru relay to enforce logic where splits (e.g., 90% Artist / 10% Platform or Producer) are validated before the content is even accepted by the network.
+
+- Sovereign Identity: Artists own their audience via Nostr keys, removing platform lock-in.
+- 
+The infrastructure should serve to offere an decentralized alternative to music distribution and monetization.
+
+- Studios-Radios as Nodes: home studios, recording facilities, and local radio stations run their own physical nodes (Or containerized servers). They become the sovereign music infrastructure, hosting the content that is created locally, facilitating decentralized distribution and enabling direct-2-artist payments.
+
+- Immutable Splits at Creation: The production team (artist, producer, engineer) agrees on revenue terms during the creation process. These terms are cryptographically signed into the metadata upon upload. The "contract" is code, enabling instant, trustless settlement via LND every time a track is played or zapped. Incentive mechanisms and contracts can be set at song lever with specific broadcastesr or players/clients.
+
+# Rationale
+
+If this models gets going and is adopted, the overall music industry and specailly the creative part will benefit. New business models would be possible.
+If this models adopted by the Music industry, a whole generation will be immediately onboarded in  
+
+The core problem we're solving is the friction and intermediation in music streaming. AudioZap enables:
+
+
+
 ## Project Structure
 
 The project is organized into several key components, all managed via Docker:
@@ -44,7 +67,7 @@ For internal networking, the server's private IP address on the primary interfac
 
 0. **Ensure you can connect to the server**
    ```bash
-   ssh root@34.35.7.115
+   ssh root@3IP
    ```
    if not - gcloud compute config-ssh (to let glcoud terminal to handle the IAM)
 
@@ -61,11 +84,11 @@ If you are running this on your local machine:
 - **LNBits**: [http://localhost:5000](http://localhost:5000)
 
 ### External Access (Cloud)
-If accessing via the external IP `34.35.41.34`:
-- **Dashboard**: [http://34.35.41.34:3001](http://34.35.41.34:3001)
-- **LNBits**: [http://34.35.41.34:5000](http://34.35.41.34:5000)
-- **Blossom**: [http://34.35.41.34:3000](http://34.35.41.34:3000)
-- **Relay**: `ws://34.35.41.34:3334`
+If accessing via the external IP :
+- **Dashboard**: [http://external IP:3001]
+- **LNBits**: [http://external IP:5000]
+- **Blossom**: [http://external IP:3000]
+- **Relay**: `ws://external IP:3334`
 
 > [!IMPORTANT]
 > Ensure that ports `3000, 3001, 3334, 5000, 8080, 9735, 10009` are open in your Cloud Firewall (VPC Firewall Rules) for the instance.
@@ -78,4 +101,6 @@ If accessing via the external IP `34.35.41.34`:
 - **Blossom**: Standard Blossom server implementation.
 
 ---
-*Created by AudioZap Team*
+*Created by [D.Leston]
+(https://x.com/df_leston)
+Nostr - npub1teprpsvpu8px6vqg4f4d7v5wz968yxkpw0yyr0q52m09ng48p2fq0h53xe
